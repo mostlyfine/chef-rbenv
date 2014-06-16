@@ -39,6 +39,15 @@ git "#{node.rbenv.rbenv_root}/plugins/ruby-build" do
   action :sync
 end
 
+git "#{node.rbenv.rbenv_root}/plugins/rbenv-update" do
+  not_if { File.exist?("#{node.rbenv.rbenv_root}/plugins/rbenv-update") }
+  user node.rbenv.user
+  group node.rbenv.group
+  repository "git://github.com/rkh/rbenv-update.git"
+  reference "master"
+  action :sync
+end
+
 directory node.rbenv.profile_path do
   not_if { File.exist?(node.rbenv.profile_path) }
   owner node.rbenv.user
